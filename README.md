@@ -1,2 +1,2 @@
 # whatsapp-link-generator-js
-Front-end code with JQuery for contact form.
+Front-end code for contact form.
