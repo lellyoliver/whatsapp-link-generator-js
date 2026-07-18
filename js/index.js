@@ -19,7 +19,7 @@ function getStrUrl(name, phone){
     phone = phone.replace(/[\(\)\.\s-]+/g,'')
 
     //join string
-    const url = 'https://api.whatsapp.com/send?phone=1131674145&text='
+    const url = 'https://api.whatsapp.com/send?phone='+ phone + '&text='
     const concatURL = url + encodeURIComponent('Nome: ' + name + '\nTelefone: ' + phone + '\nMail: ' + strEmail + '\nQnt de pessoas: ' + strMedia + '\nData do evento: ' + strDate)
     console.log(concatURL)
 }
