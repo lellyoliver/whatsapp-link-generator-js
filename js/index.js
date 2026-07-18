@@ -1,28 +1,41 @@
-//gets the variables
-let strName, strPhone, strEmail, strMedia, strDate
 const btn = document.getElementById('btnSubmit')
 
-//get the value HTML
-document.getElementById('btnSubmit').addEventListener('click', (e) => {
-    e.preventDefault()
-    strName = document.getElementById('name').value
-    strPhone = document.getElementById('phone').value 
-    strEmail = document.getElementById('email').value
-    strMedia = document.getElementById('media').value
-    strDate = document.getElementById('date').value
+btn.addEventListener('click', (event) => {
+    event.preventDefault()
+
+    const name = document.getElementById('name').value.trim()
+    const phone = document.getElementById('phone').value
+    const email = document.getElementById('email').value.trim()
+    const media = document.getElementById('media').value
+    const date = document.getElementById('date').value
+
+    const whatsappUrl = getWhatsappUrl({
+        name,
+        phone,
+        email,
+        media,
+        date
+    })
+
+    console.log(whatsappUrl)
+
+    window.open(whatsappUrl, '_blank')
 })
 
-function getStrUrl(name, phone){
-    //clear string
-    name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
-    name = name.replace(/[( )]/g, "%20")
-    phone = phone.replace(/[\(\)\.\s-]+/g,'')
+function getWhatsappUrl({ name, phone, email, media, date }) {
+    const cleanName = name
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
 
-    //join string
-    const url = 'https://api.whatsapp.com/send?phone='+ phone + '&text='
-    const concatURL = url + encodeURIComponent('Nome: ' + name + '\nTelefone: ' + phone + '\nMail: ' + strEmail + '\nQnt de pessoas: ' + strMedia + '\nData do evento: ' + strDate)
-    console.log(concatURL)
+    const cleanPhone = phone.replace(/\D/g, '')
+
+    const message = [
+        `Nome: ${cleanName}`,
+        `Telefone: ${cleanPhone}`,
+        `E-mail: ${email}`,
+        `Quantidade de pessoas: ${media}`,
+        `Data do evento: ${date}`
+    ].join('\n')
+
+    return `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(message)}`
 }
-
-//get the string
-getStrUrl()
